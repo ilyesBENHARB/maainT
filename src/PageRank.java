@@ -10,6 +10,9 @@ public class PageRank {
 	private ArrayList c = new ArrayList();
 	private ArrayList l = new ArrayList();
 	private ArrayList i = new ArrayList();
+	private ArrayList pr = new ArrayList();
+	private int nbNodes;
+	private double d=0.1;
 
 	public ArrayList getC() {
 		return c;
@@ -33,6 +36,36 @@ public class PageRank {
 
 	public void setI(ArrayList i) {
 		this.i = i;
+	}
+
+	public int getNbNodes() {
+		return nbNodes;
+	}
+
+	public void setNbNodes(int nbNodes) {
+		this.nbNodes = nbNodes;
+	}
+
+	public void countNodes(String fileName) throws FileNotFoundException, IOException {
+		int count = 1;
+		int lastValue = 0;
+		int value;
+
+		try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+			String line;
+			while ((line = br.readLine()) != null) {
+
+				if (line.charAt(0) != '#') {
+					value = (Integer.parseInt(String.valueOf(line.charAt(0))));
+					if (value != lastValue) {
+						lastValue = value;
+						count++;
+					}
+
+				}
+			}
+			this.nbNodes = count;
+		}
 	}
 
 	public void cliExtract(String fileName) throws FileNotFoundException, IOException {
@@ -75,13 +108,33 @@ public class PageRank {
 
 	}
 
+	public void doPageRank() {
+		
+		 ArrayList prNew  = new ArrayList();
+		
+		double init = 1 / this.nbNodes;
+		for (int i = 0; i < this.nbNodes; i++) {
+			this.pr.add(init);
+		}
+
+		for (int i = 0; i < this.nbNodes; i++) {
+			for (int j =(int) this.l.get(i); j < (int) this.l.get(i+1); j++) {
+				double element=(this.d/this.nbNodes)+(1/this.d)*(int)this.c.get(j) * (int)this.pr.get(i);
+				prNew.add((int)this.i.get(j), element) ;
+			}
+		}
+
+	}
+
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
 		PageRank p = new PageRank();
 		p.cliExtract("file.txt");
+		p.countNodes("file.txt");
 		ArrayList c = p.getC();
 		ArrayList l = p.getL();
 		ArrayList i = p.getI();
+		int nb = p.getNbNodes();
 
 		for (int j = 0; j < l.size(); j++) {
 			System.out.print(l.get(j) + "|");
@@ -100,6 +153,7 @@ public class PageRank {
 
 		}
 		System.out.println("");
+		System.out.println("nb = " + nb);
 	}
 
 }
