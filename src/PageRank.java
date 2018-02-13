@@ -118,21 +118,26 @@ public class PageRank {
 		for (int i = 0; i < this.nbNodes; i++) {
 			prOld.add(init);
 		}
+		for (int i = 0; i < this.nbNodes; i++) {
+			prNew.add((double)0.00);
+		}
 		boolean exit = true;
+		double temp,temp2;
 		do {
 			exit = true;
 			for (int i = 0; i < this.nbNodes; i++) {
-				prNew.add(i,0.00);
+				prNew.set(i,(double)0.00);
 			}
+			
 
 			for (int i = 0; i < this.nbNodes; i++) {
 				System.out.println("iteration i " + i);
 				for (int j = (int) this.l.get(i); j < (int) this.l.get(i + 1); j++) {
 
-					double temp = (this.d / this.nbNodes)
+					temp = (this.d / this.nbNodes)
 							+ ((1 - this.d) * (double) this.c.get(j) * (double) prOld.get(i));
 					System.out.println("temp " + temp);
-					double temp2 = (double) prNew.get((int) this.i.get(j)) + temp;
+					temp2 = (double) prNew.get((int) this.i.get(j)) + temp;
 					prNew.set((int) this.i.get(j), temp2);
 					System.out.println("prnew " + prNew.get((int) this.i.get(j)));
 				}
