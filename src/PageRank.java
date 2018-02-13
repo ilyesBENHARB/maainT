@@ -12,7 +12,8 @@ public class PageRank {
 	private ArrayList i = new ArrayList();
 	private ArrayList pr = new ArrayList();
 	private int nbNodes;
-	private double d=0.1;
+	private double d=0.15;
+	private double eps=0.0001;
 
 	public ArrayList getC() {
 		return c;
@@ -110,19 +111,64 @@ public class PageRank {
 
 	public void doPageRank() {
 		
-		 ArrayList prNew  = new ArrayList();
+		ArrayList prOld = new ArrayList(); 
+		ArrayList prNew  = new ArrayList();
+		 
 		
 		double init = 1 / this.nbNodes;
 		for (int i = 0; i < this.nbNodes; i++) {
-			this.pr.add(init);
+			prOld.add(init);
 		}
-
-		for (int i = 0; i < this.nbNodes; i++) {
-			for (int j =(int) this.l.get(i); j < (int) this.l.get(i+1); j++) {
-				double element=(this.d/this.nbNodes)+(1/this.d)*(int)this.c.get(j) * (int)this.pr.get(i);
-				prNew.add((int)this.i.get(j), element) ;
+		boolean exit=true;
+		do {
+			exit=true;
+			for (int i = 0; i < this.nbNodes; i++) {
+				prNew.add(i,0.00);
 			}
+			
+			for (int i = 0; i < this.nbNodes; i++) {
+				System.out.println("iteration i "+i);
+				for (int j =(int) this.l.get(i); j < (int) this.l.get(i+1); j++) {
+					
+					double temp=(this.d/this.nbNodes)+(1/this.d)*(double)this.c.get(j) * (double)prOld.get(i);
+					System.out.println("temp "+temp);
+					
+					prNew.add((int)this.i.get(j),temp ) ;
+					System.out.println("prnew " +prNew.get((int)this.i.get(j)));
+				}
+			}
+			
+			for (int i = 0; i < this.nbNodes; i++) {
+				
+				System.out.println("element numero "+i);
+				System.out.println("difference = "+Math.abs((double)prOld.get(i)-(double)prNew.get(i)) );
+				if(Math.abs((double)prOld.get(i)-(double)prNew.get(i))>this.eps) {
+					exit=false;
+				}
+			}
+			
+			
+			for (int i = 0; i < this.nbNodes; i++) {
+				prOld.add(i, (double)prNew.get(i));
+				System.out.print("|"+prOld.get(i));
+			}
+			System.out.println("");
+		
+
+			
+		
+			
 		}
+		while(exit==false);
+		
+		
+		/*
+		System.out.println("prOld");
+		for (int i = 0; i < this.nbNodes; i++) {
+			System.out.print(prOld.get(i));
+		}
+		System.out.println("****");
+		*/
 
 	}
 
@@ -135,6 +181,7 @@ public class PageRank {
 		ArrayList l = p.getL();
 		ArrayList i = p.getI();
 		int nb = p.getNbNodes();
+		p.doPageRank();
 
 		for (int j = 0; j < l.size(); j++) {
 			System.out.print(l.get(j) + "|");
