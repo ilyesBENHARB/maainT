@@ -125,11 +125,13 @@ public class PageRank {
 		double temp, temp2;
 		do {
 			exit = true;
-			for (int i = 0; i < this.nbNodes; i++) {
-				prNew.set(i, (double) 0.00);
+			
+			for (int k = 0; k < this.nbNodes; k++) {
+				prNew.set(k, (double) 0.00);
 			}
 
 			for (int i = 0; i < this.nbNodes; i++) {
+				
 				System.out.println("**** iteration : " + i + " ****");
 				for (int j = (int) this.l.get(i); j < (int) this.l.get(i + 1); j++) {
 
@@ -138,21 +140,22 @@ public class PageRank {
 					prNew.set((int) this.i.get(j), temp2);
 				}
 			}
-
+			
+			//condition d'arret
+			double som=0;
 			for (int i = 0; i < this.nbNodes; i++) {
-				if (Math.abs((double) prOld.get(i) - (double) prNew.get(i)) >= this.eps) {
-					exit = false;
-				}
+				som=som+Math.pow((double)prNew.get(i)-(double)prOld.get(i),2 );
 			}
-
-			for (int i = 0; i < this.nbNodes; i++) {
-				prOld.set(i, (double) prNew.get(i));
-				System.out.print("|" + prOld.get(i));
+			som=Math.sqrt(som);
+			if(som>this.eps) {
+				exit=false;
 			}
-			System.out.println("");
+			
+			
 
 		} while (exit == false);
 
+		//Resultat
 		System.out.println("prOld");
 		for (int i = 0; i < this.nbNodes; i++) {
 			System.out.print(prOld.get(i));
