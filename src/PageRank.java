@@ -119,35 +119,28 @@ public class PageRank {
 			prOld.add(init);
 		}
 		for (int i = 0; i < this.nbNodes; i++) {
-			prNew.add((double)0.00);
+			prNew.add((double) 0.00);
 		}
 		boolean exit = true;
-		double temp,temp2;
+		double temp, temp2;
 		do {
 			exit = true;
 			for (int i = 0; i < this.nbNodes; i++) {
-				prNew.set(i,(double)0.00);
+				prNew.set(i, (double) 0.00);
 			}
-			
 
 			for (int i = 0; i < this.nbNodes; i++) {
-				System.out.println("iteration i " + i);
+				System.out.println("**** iteration : " + i + " ****");
 				for (int j = (int) this.l.get(i); j < (int) this.l.get(i + 1); j++) {
 
-					temp = (this.d / this.nbNodes)
-							+ ((1 - this.d) * (double) this.c.get(j) * (double) prOld.get(i));
-					System.out.println("temp " + temp);
+					temp = (this.d / this.nbNodes) + ((1 - this.d) * (double) this.c.get(j) * (double) prOld.get(i));
 					temp2 = (double) prNew.get((int) this.i.get(j)) + temp;
 					prNew.set((int) this.i.get(j), temp2);
-					System.out.println("prnew " + prNew.get((int) this.i.get(j)));
 				}
 			}
 
 			for (int i = 0; i < this.nbNodes; i++) {
-
-				System.out.println("element numero " + i);
-				System.out.println("difference = " + Math.abs((double) prOld.get(i) - (double) prNew.get(i)));
-				if (Math.abs((double) prOld.get(i) - (double) prNew.get(i)) > this.eps) {
+				if (Math.abs((double) prOld.get(i) - (double) prNew.get(i)) >= this.eps) {
 					exit = false;
 				}
 			}
@@ -197,7 +190,7 @@ public class PageRank {
 
 		}
 		System.out.println("");
-		System.out.println("nb = " + nb);
+
 	}
 
 }

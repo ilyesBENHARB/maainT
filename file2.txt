@@ -1,0 +1,7 @@
+# graphe2.txt 
+# Nodes: 3 Edges: 4
+# FromNodeId	ToNodeId
+0	1
+1	0
+1	2
+2	0
