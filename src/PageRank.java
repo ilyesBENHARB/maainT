@@ -123,7 +123,7 @@ public class PageRank {
 		}
 		
 		boolean exit = true;
-		double temp, temp2;
+		double temp1,temp2,temp3;
 		do {
 			exit = true;
 			
@@ -137,15 +137,15 @@ public class PageRank {
 			for (int i = 0; i < this.nbNodes; i++) {
 				for (int j = (int) this.l.get(i); j < (int) this.l.get(i + 1); j++) {
 
-					temp =  (double) this.c.get(j) * (double) prOld.get(i);
-					temp2 = (double) prNew.get((int) this.i.get(j)) + temp;
+					temp1 =  (double) this.c.get(j) * (double) prOld.get(i);
+					temp2 = (double) prNew.get((int) this.i.get(j)) + temp1;
 					prNew.set((int) this.i.get(j), temp2);
 				}
 			}
 			
 			for (int i = 0; i < this.nbNodes; i++) {
-				double temp3 = ((this.d*1.0) /( this.nbNodes*1.0)) + ((1 - this.d) * (double)prNew.get(i));
-				prNew.set(i, temp3);
+					temp3 = ((this.d*1.0) /( this.nbNodes*1.0)) + ((1 - this.d) * (double)prNew.get(i));
+					prNew.set(i, temp3);
 						
 			}
 			
