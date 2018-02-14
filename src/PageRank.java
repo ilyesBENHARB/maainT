@@ -114,51 +114,64 @@ public class PageRank {
 		ArrayList prOld = new ArrayList();
 		ArrayList prNew = new ArrayList();
 
-		double init = 1 / this.nbNodes;
+		double init = 1.0 / (1.0*this.nbNodes);
 		for (int i = 0; i < this.nbNodes; i++) {
-			prOld.add(init);
+			prOld.add(i,init);
 		}
 		for (int i = 0; i < this.nbNodes; i++) {
-			prNew.add((double) 0.00);
+			prNew.add(i,(double) 0);
 		}
+		
 		boolean exit = true;
 		double temp, temp2;
 		do {
 			exit = true;
 			
+			
+			//initialisation rk+1
 			for (int k = 0; k < this.nbNodes; k++) {
-				prNew.set(k, (double) 0.00);
+				prNew.set(k, 0*1.0);
 			}
+			
 
 			for (int i = 0; i < this.nbNodes; i++) {
-				
-				System.out.println("**** iteration : " + i + " ****");
 				for (int j = (int) this.l.get(i); j < (int) this.l.get(i + 1); j++) {
 
-					temp = (this.d / this.nbNodes) + ((1 - this.d) * (double) this.c.get(j) * (double) prOld.get(i));
+					temp =  (double) this.c.get(j) * (double) prOld.get(i);
 					temp2 = (double) prNew.get((int) this.i.get(j)) + temp;
 					prNew.set((int) this.i.get(j), temp2);
 				}
 			}
 			
-			//condition d'arret
-			double som=0;
 			for (int i = 0; i < this.nbNodes; i++) {
-				som=som+Math.pow((double)prNew.get(i)-(double)prOld.get(i),2 );
+				double temp3 = ((this.d*1.0) /( this.nbNodes*1.0)) + ((1 - this.d) * (double)prNew.get(i));
+				prNew.set(i, temp3);
+						
 			}
-			som=Math.sqrt(som);
-			if(som>this.eps) {
-				exit=false;
+			
+			
+			//condition d'arret
+			
+			for (int i = 0; i < this.nbNodes; i++) {
+				if((Math.abs((double)prNew.get(i)-(double)prOld.get(i)))>=this.eps) {
+					exit=false;
+				}
 			}
+			
+			// Rk recoit Rk+1
+			for (int i = 0; i < this.nbNodes; i++) {
+				prOld.set(i, (double)prNew.get(i));
+			}
+			
 			
 			
 
 		} while (exit == false);
 
 		//Resultat
-		System.out.println("prOld");
+		System.out.println("Page Rank ");
 		for (int i = 0; i < this.nbNodes; i++) {
-			System.out.print(prOld.get(i));
+			System.out.print(prNew.get(i)+"|");
 		}
 		System.out.println("");
 		System.out.println("****");
@@ -168,26 +181,30 @@ public class PageRank {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 
 		PageRank p = new PageRank();
+		//extraction CLI
 		p.cliExtract("file.txt");
+		//calcule du nombre de noeud
 		p.countNodes("file.txt");
 		ArrayList c = p.getC();
 		ArrayList l = p.getL();
 		ArrayList i = p.getI();
 		int nb = p.getNbNodes();
+		//methode du page Rank
 		p.doPageRank();
 
+		System.out.println("L");
 		for (int j = 0; j < l.size(); j++) {
 			System.out.print(l.get(j) + "|");
 
 		}
 		System.out.println("");
-
+		System.out.println("C");
 		for (int j = 0; j < c.size(); j++) {
 			System.out.print(c.get(j) + "|");
 
 		}
 		System.out.println("");
-
+		System.out.println("I");
 		for (int j = 0; j < i.size(); j++) {
 			System.out.print(i.get(j) + "|");
 
