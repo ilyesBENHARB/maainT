@@ -1,8 +1,8 @@
-
-
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +18,12 @@ public class Collecteur {
 		Map<String, String> ignore = new HashMap<>();
 
 		String line;
+		
+		BufferedWriter writer = new BufferedWriter(new FileWriter(out));
+	   
+	     
+	   
+	
 
 		try (BufferedReader br2 = new BufferedReader(new FileReader(dict))) {
 
@@ -92,14 +98,16 @@ public class Collecteur {
 		Iterator<Entry<String, String>> itDR = setDictR.iterator();
 		while (itDR.hasNext()) {
 			Entry<String, String> eR = itDR.next();
-			System.out.println("# " + eR.getKey() + " " + eR.getValue());
+			writer.write("# " + eR.getKey() + " " + eR.getValue()+"\n");
+			
 		}
+		 writer.close();
 
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		
 		Collecteur c = new Collecteur();
-		c.doCollector("amazon-meta-bis.txt", "Nouns.txt", "ignore.txt", "out.txt");
+		c.doCollector("src.txt", "Nouns.txt", "ignore.txt", "out.txt");
 	}
 }
