@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Collecteur {
@@ -98,7 +99,7 @@ public class Collecteur {
 		Iterator<Entry<String, String>> itDR = setDictR.iterator();
 		while (itDR.hasNext()) {
 			Entry<String, String> eR = itDR.next();
-			writer.write("# " + eR.getKey() + " " + eR.getValue()+"\n");
+			writer.write(eR.getKey() + " " + eR.getValue()+"\n");
 			
 		}
 		 writer.close();
@@ -108,6 +109,15 @@ public class Collecteur {
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		
 		Collecteur c = new Collecteur();
-		c.doCollector("src.txt", "Nouns.txt", "ignore.txt", "out.txt");
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Veuillez entrez le nom de fichier de meta-données (ex:amazon-meta-bis.txt)");
+		String src = sc.nextLine();
+		System.out.println("Veuillez entrez le nom du fichier dictionnaire (ex:Nouns.txt)");
+		String dict = sc.nextLine();
+		System.out.println("Veuillez entrez le nom du fichier des mots à exclure (ex:ignore.txt)");
+		String ign = sc.nextLine();
+		
+		c.doCollector(src, dict, ign, "out.txt");
+		System.out.println("Le résultat est dans le fichier out.txt");
 	}
 }
