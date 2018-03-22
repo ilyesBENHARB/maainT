@@ -107,17 +107,18 @@ public class Collecteur {
 	}
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
-		
 		Collecteur c = new Collecteur();
-		Scanner sc = new Scanner(System.in);
-		System.out.println("Veuillez entrez le nom de fichier de meta-données (ex:amazon-meta-bis.txt)");
-		String src = sc.nextLine();
-		System.out.println("Veuillez entrez le nom du fichier dictionnaire (ex:Nouns.txt)");
-		String dict = sc.nextLine();
-		System.out.println("Veuillez entrez le nom du fichier des mots à exclure (ex:ignore.txt)");
-		String ign = sc.nextLine();
 		
-		c.doCollector(src, dict, ign, "out.txt");
+		if (args.length==0) {
+			System.out.println("exécution sans arguments");
+			c.doCollector("amazon-meta-bis.txt", "Nouns.txt", "ignore.txt", "out.txt");
+		}
+		
+		else {
+			System.out.println("exécution avec arguments");
+			c.doCollector(args[0], args[1], args[2], "out.txt");
+		}
+		
 		System.out.println("Le résultat est dans le fichier out.txt");
 	}
 }
