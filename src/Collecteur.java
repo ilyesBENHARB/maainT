@@ -119,6 +119,7 @@ public class Collecteur {
 			c.doCollector(args[0], args[1], args[2], "out.txt");
 		}
 		
+		
 		System.out.println("Le résultat est dans le fichier out.txt");
 	}
 }
