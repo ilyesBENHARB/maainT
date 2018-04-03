@@ -6,15 +6,13 @@ import java.util.List;
 
 public class Search {
 
-	public static void main(String[] args) throws IOException {
-
-		String dictExclu = args[0];
-		String words = args[1];
+	public void doSearch(String dictEx, String words) throws IOException {
 
 		ArrayList<String> dictExcluList = new ArrayList<String>();
 		ArrayList<String> wordsList = new ArrayList<String>();
+		ArrayList<String> wordsNew = new ArrayList<String>();
 
-		try (BufferedReader br = new BufferedReader(new FileReader(dictExclu))) {
+		try (BufferedReader br = new BufferedReader(new FileReader(dictEx))) {
 
 			String line;
 			while ((line = br.readLine()) != null) {
@@ -22,18 +20,50 @@ public class Search {
 				dictExcluList.add(line);
 
 			}
+		}
 
-			try (BufferedReader br1 = new BufferedReader(new FileReader(words))) {
+		try (BufferedReader br1 = new BufferedReader(new FileReader(words))) {
 
-				while ((line = br1.readLine()) != null) {
+			String line;
+			while ((line = br1.readLine()) != null) {
 
-					wordsList.add(line);
-
-				}
+				wordsList.add(line);
 
 			}
 
 		}
 
+		for (int i = 0; i < wordsList.size(); i++) {
+			boolean exit = false;
+			int j = 0;
+			while ((j < dictExcluList.size()) && (exit == false)) {
+
+				if (wordsList.get(i).equals(dictExcluList.get(j))) {
+					exit = true;
+				}
+				j++;
+
+			}
+			if (exit == false) {
+				wordsNew.add(wordsList.get(i));
+			}
+		}
+		
+		for (int i = 0; i < wordsNew.size(); i++) {
+			System.out.println(wordsNew.get(i));
+		}
+		
+
 	}
+
+	public static void main(String[] args) throws IOException {
+
+		String dictExclu = args[0];
+		String words = args[1];
+		
+		Search search=new Search();
+		search.doSearch(dictExclu, words);
+
+	}
+
 }
