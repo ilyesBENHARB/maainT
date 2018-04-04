@@ -79,7 +79,7 @@ public class Collecteur {
 										}
 										if (existI == false) {
 
-											e.setValue(e.getValue() + id + "-");
+											e.setValue(e.getValue() + id + " ");
 										}
 
 									}

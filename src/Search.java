@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Search {
 
-	public void doSearch(String dictEx, String words) throws IOException {
+	public void doSearch(String dictEx, String words, String collecteur) throws IOException {
 
 		ArrayList<String> dictExcluList = new ArrayList<String>();
 		ArrayList<String> wordsList = new ArrayList<String>();
@@ -62,7 +62,7 @@ public class Search {
 		String words = args[1];
 		
 		Search search=new Search();
-		search.doSearch(dictExclu, words);
+		search.doSearch(dictExclu, words, "out.txt");
 
 	}
 
