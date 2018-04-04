@@ -1,5 +1,7 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,8 @@ public class Search {
 		ArrayList<String> wordsList = new ArrayList<String>();
 		ArrayList<String> wordsNew = new ArrayList<String>();
 		ArrayList<Integer> idsList = new ArrayList<Integer>();
+		ArrayList<Integer> intersectionList = new ArrayList<Integer>();
+		BufferedWriter writer = new BufferedWriter(new FileWriter("intermediaire.txt"));
 
 		try (BufferedReader br = new BufferedReader(new FileReader(dictEx))) {
 
@@ -60,6 +64,7 @@ public class Search {
 				for (int i = 0; i < wordsNew.size(); i++) {
 					if (lineSplit[0].equals(wordsList.get(i))) {
 
+						writer.write(line + "\n");
 						for (int j = 1; j < lineSplit.length; j++) {
 							idsList.add(new Integer(lineSplit[j]));
 						}
@@ -71,7 +76,34 @@ public class Search {
 		}
 
 		for (int i = 0; i < idsList.size(); i++) {
-			System.out.println(idsList.get(i));
+			boolean intersection = true;
+			try (BufferedReader br3 = new BufferedReader(new FileReader("intermediaire.txt"))) {
+				String line;
+				while ((intersection == true) && ((line = br3.readLine()) != null)) {
+
+					String[] lineSplit2 = line.split(" ");
+					int k = 0;
+					boolean exist = false;
+					while ((k < lineSplit2.length) && (exist == false)) {
+						if (lineSplit2[k].equals(idsList.get(i).toString())) {
+							exist = true;
+						}
+						k++;
+
+					}
+
+					intersection = exist;
+				}
+				
+			}
+			if (intersection==true) {
+				intersectionList.add(idsList.get(i));
+			}
+
+		}
+		
+		for (int i=0;i<intersectionList.size();i++) {
+			System.out.println(intersectionList.get(i));
 		}
 
 	}
