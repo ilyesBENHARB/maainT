@@ -17,6 +17,6 @@ ex : java Collecteur.java amazon-meta-bis.txt Nouns.txt ignore.txt
 
 
 La classe Search n'est pas complète
-L'execution de la classe search prend en entrée deux parametres un fichier text ( dictionnaire de mots a exclure ) et un fichier text ( l'ensemble de mots de recherches ) 
+L'execution de la classe search prend en entrée deux parametres un fichier text ( dictionnaire de mots a exclure ) et un fichier text ( l'ensemble de mots de recherches ). La classe utilise aussi le fichier out ( resultat de l'execution de Collecteur). 
 L'execution permet de trouver les Ids des mots apres avoir exclure les mots indisérables.
 Le développement est arrété au niveau de l'intersection des Ids.
