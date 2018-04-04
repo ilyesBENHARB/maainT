@@ -11,6 +11,7 @@ public class Search {
 		ArrayList<String> dictExcluList = new ArrayList<String>();
 		ArrayList<String> wordsList = new ArrayList<String>();
 		ArrayList<String> wordsNew = new ArrayList<String>();
+		ArrayList<Integer> idsList = new ArrayList<Integer>();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(dictEx))) {
 
@@ -48,11 +49,30 @@ public class Search {
 				wordsNew.add(wordsList.get(i));
 			}
 		}
-		
-		for (int i = 0; i < wordsNew.size(); i++) {
-			System.out.println(wordsNew.get(i));
+
+		try (BufferedReader br3 = new BufferedReader(new FileReader(collecteur))) {
+
+			String line;
+			String[] lineSplit;
+			while ((line = br3.readLine()) != null) {
+
+				lineSplit = line.split(" ");
+				for (int i = 0; i < wordsNew.size(); i++) {
+					if (lineSplit[0].equals(wordsList.get(i))) {
+
+						for (int j = 1; j < lineSplit.length; j++) {
+							idsList.add(new Integer(lineSplit[j]));
+						}
+
+					}
+				}
+
+			}
 		}
-		
+
+		for (int i = 0; i < idsList.size(); i++) {
+			System.out.println(idsList.get(i));
+		}
 
 	}
 
@@ -60,8 +80,8 @@ public class Search {
 
 		String dictExclu = args[0];
 		String words = args[1];
-		
-		Search search=new Search();
+
+		Search search = new Search();
 		search.doSearch(dictExclu, words, "out.txt");
 
 	}
